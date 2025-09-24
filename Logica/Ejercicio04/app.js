@@ -1,6 +1,6 @@
 function trianguloIsosceles(){
     let triangulo = [];
-    let n = 5;
+    let n = parseInt(prompt('Introduce la altura del triangulo:'));
     for (let i = 0; i < n ; i++){
         triangulo[i] = '';
         for (let j = 0; j < n - i - 1; j++){
