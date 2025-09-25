@@ -10,8 +10,8 @@ function rombo(){
             rombo[i] += '*';
         }
     }
-    for (let i = n - 2; i > 0; i--){
-        for(let j = 0; j < n - 1 - i; j++){
+    for (let i = n - 2; i >= 0; i--){
+        for(let j = 1; j < n - 1 - i; j++){
             rombo[i] += ' ';
         }
         for (let x = 0; x < 2 * i + 1; x++){
