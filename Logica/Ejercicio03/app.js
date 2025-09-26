@@ -1,3 +1,5 @@
+'use strict';
+
 function cuadradoRectangulo(){
     let n = parseInt(prompt('Introduce la altura del rectangulo:'));
     let cuadrado = [];
@@ -11,7 +13,9 @@ function cuadradoRectangulo(){
             }
         }
     }
-    console.log(cuadrado);
-    
+    return cuadrado;
 }
-cuadradoRectangulo();
+
+let resultado = cuadradoRectangulo();
+console.log(resultado);
+
