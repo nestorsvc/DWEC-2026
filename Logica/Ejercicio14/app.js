@@ -98,12 +98,39 @@ alumnos = promociona(alumnos);
 
 function alumnoPromociona(alumnos){
     let resultado = '';
+    for (i of alumnos){
+      if(i.promociona){
+        resultado+=`Indice-${i.nombre}-${i.media}`;
+      }
+    }
+    return resultado;
+}
+
+function alumnoNoPromociona(alumnos){
+    let resultado = '';
+    for (i of alumnos){
+      if(!i.promociona){
+        resultado+=`Indice-${i.nombre}-Pendientes:[`;
+        for(j of i.asignaturas){
+          if (j.nota < 5){
+            resultado+=`${j.modulo},`;
+          }
+        }
+        resultado+=']';
+        resultado+='\n';
+      }
+    }
+    return resultado;
 }
 
 
 
 //* --- Probar --- 
-let resultado = alumnoPromociona(alumnos);
-console.log(resultado);
+let resultadoPromociona = promociona(alumnos);
+let resultadoAlumnoPromociona = alumnoPromociona(alumnos);
+let resultadoAlumnoNoPromociona = alumnoNoPromociona(alumnos);
+console.log(resultadoPromociona);
+console.log(resultadoAlumnoPromociona);
+console.log(resultadoAlumnoNoPromociona);
 
 
