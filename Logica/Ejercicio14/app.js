@@ -31,17 +31,79 @@ let alumnos = [
   }
 ];
 
-function datosAlumnos(alumnos){
-    let resultado = '';
+function promociona(alumnos){
+    let sumaNotas = 0;
+    let contadorNotas = 0;
+    let media = 0;
+
     for (let i of alumnos){
-        resultado+= 'Nombre:\n'
-       for (let j of i.asignaturas){
-            resultado+= `${i.nombre} -> Modulo: ${j.modulo} Nota: ${j.nota}\n`;
+      if (i.nombre == 'Angel'){
+        for (let j of i.asignaturas){
+          if (j.nota < 5){
+            i.promociona = false;
+          } else {
+            i.promociona = true;
+          }
+          sumaNotas+= j.nota;
+          contadorNotas++;
+          }
+          media = sumaNotas/contadorNotas;
+          i.media = media;
         }
+
+        contadorNotas = 0;
+        media = 0;
+        sumaNotas = 0;
+
+         if (i.nombre == 'Nestor'){
+        for (let j of i.asignaturas){
+          if (j.nota < 5){
+            i.promociona = false;
+          } else {
+            i.promociona = true;
+          }
+          sumaNotas+= j.nota;
+          contadorNotas++;
+          }
+          let media = sumaNotas / contadorNotas;
+          i.media = media;
+        }
+
+        contadorNotas = 0;
+        media = 0;
+        sumaNotas = 0;
+
+        if (i.nombre == 'Rodrigo'){
+        for (let j of i.asignaturas){
+          if (j.nota < 5){
+            i.promociona = false;
+          } else {
+            i.promociona = true;
+          }
+          sumaNotas+= j.nota;
+          contadorNotas++;
+          }
+          let media = sumaNotas / contadorNotas;
+          i.media = media;
+        }
+
+        contadorNotas = 0;
+        media = 0;
+        sumaNotas = 0;
+      }
+      return alumnos;
     }
-    return resultado;
+
+alumnos = promociona(alumnos);
+
+function alumnoPromociona(alumnos){
+    let resultado = '';
 }
-let resultado = datosAlumnos(alumnos);
+
+
+
+//* --- Probar --- 
+let resultado = alumnoPromociona(alumnos);
 console.log(resultado);
 
 

@@ -5,7 +5,7 @@ function contadorCaracteres(cadena){
      */
     let aparicionesCaracteres = {};
     for (let i = 0; i <= cadena.length - 1; i++){
-        if(aparicionesCaracteres[cadena[i]] == undefined){
+        if(aparicionesCaracteres[cadena[i]]){
             aparicionesCaracteres[cadena[i]] = 1;
         } else if (aparicionesCaracteres[cadena[i]]){
             aparicionesCaracteres[cadena[i]] += 1;
