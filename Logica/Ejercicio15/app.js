@@ -108,10 +108,21 @@ function calcularBaseAntiguedad(trabajador){
 function iniciarApp(){
 
     let opcion = prompt('Menú gestión de empresa: Trabajadores\nSelecciona una opción:\n1.Listar Trabajadores\n2.Crear Trabajador\n3.Borrar Trabajador\n4.Modificar Trabajador\n5.Listar Nóminas');
-    
-    
 
-
+    switch(opcion){
+        case 1: listarTrabajadores(trabajadores);
+        break;
+        case 2: crearTrabajador()
+        break;
+        case 3: borrarTrabajador("E01")
+        break;
+        case 4: modificarTrabajador("E03");
+        break;
+        case 5: listarNominas();
+        break;
+        default:
+        break;
+    }
 }
 let probarListarTrabajadores = listarTrabajadores(trabajadores);
 let probarCrearTrabajador = crearTrabajador();
