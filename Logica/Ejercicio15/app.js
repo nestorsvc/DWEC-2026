@@ -25,26 +25,29 @@ function crearTrabajador() {
     let categoria = parseInt(prompt('Introduce la categoría del nuevo trabajador'));
     let contratacion = parseInt(prompt('Introduce el año de contratacion del nuevo trabajador'));
 
-    //* forma mejor
+    //* mejor forma de sacar el codigo
     let codigo = `E${trabajadores.length + 1 < 9 ? `0${trabajadores.length + 1}` : `${trabajadores.length + 1}`}`;
+    if (validarNombre(nombre) && validarCategoria(categoria) && validarContratacion(contratacion)) {
+       let nuevoTrabajador = { codigo: codigo, nombre: nombre, categoria: categoria, contratacion: contratacion };
+        trabajadores = trabajadores.concat(nuevoTrabajador);
+        return listarTrabajadores(trabajadores);
+    } else {
+        alert('Has introducido mal uno de los campos');
+    }
 
-    //* forma turbia de hacerlo
+    //* forma turbia de sacar el codigo
     // for (let i = 0; i <= trabajadores.length + 1; i++){
     //     codigo = `E${i < 9 ? `0${i}` : `${i}`}`;
     // }
 
-    let nuevoTrabajador = { codigo: codigo, nombre: validarNombre(nombre), categoria: validarCategoria(categoria), contratacion: validarContratacion(contratacion)};
-
     //* push muta el array, concat devuelve uno nuevo
-    trabajadores = trabajadores.concat(nuevoTrabajador);
-    return listarTrabajadores(trabajadores);
 }
 
 function borrarTrabajador(codigo) {
     let confirmacion = confirm('¿Está seguro de que quiere borrar al trabajador?');
     if (confirmacion) {
         let trabajadoresEncontrados = trabajadores.filter(t => t.codigo !== codigo);
-        if (trabajadoresEncontrados.length == trabajadores.length){
+        if (trabajadoresEncontrados.length == trabajadores.length) {
             alert('No se ha encontrado al trabajador');
         } else {
             return listarTrabajadores(trabajadoresEncontrados);
@@ -65,17 +68,18 @@ function modificarTrabajador(codigo) {
     let confirmacion = confirm(`¿Está seguro que quiere modificar el trabajador seleccionado?\nValores por defecto:\n${valoresActuales}`);
     if (confirmacion) {
         let nuevoNombre = prompt('Introduce el nombre para modificar el actual');
-        let nuevaCategoria = prompt('Introduce la categoria para modificar la actual');
-        let nuevaContratacion = prompt('Introduce la contratacion para modificar la actual');
-        if (nuevoNombre != null && nuevaCategoria != null && nuevaContratacion != null) {
+        let nuevaCategoria = parseInt(prompt('Introduce la categoria para modificar la actual'));
+        let nuevaContratacion = parseInt(prompt('Introduce la contratacion para modificar la actual'));
+
+        if (nuevoNombre != null && nuevaCategoria != null && nuevaContratacion != null && validarNombre(nuevoNombre) && validarCategoria(nuevaCategoria) && validarContratacion(nuevaContratacion)) {
             for (i of trabajadorEncontrado) {
-                i.nombre = validarNombre(nuevoNombre);
-                i.categoria = validarCategoria(nuevaCategoria);
-                i.contratacion = validarContratacion(nuevaContratacion);
+                i.nombre = nuevoNombre;
+                i.categoria = nuevaCategoria;
+                i.contratacion = nuevaContratacion;
             }
             return listarTrabajadores(trabajadorEncontrado);
         } else {
-            alert('Debe rellenar todos los campos');
+            alert('Debe rellenar todos los campos o ha introducido mal alguno de ellos');
         }
     } else {
         alert('El trabajador no se ha modificado');
@@ -87,6 +91,8 @@ function listarNominas() {
     let listadoNominas = '--LISTADO DE NOMINAS--\n';
     let importeTotal = 0;
     for (i of trabajadores) {
+        console.log(i);
+        
         listadoNominas += `Trabajador: ${i.nombre} | Categoría: ${i.categoria} | Nomina Final =  ${calcularBaseAntiguedad(i)}€\n`;
         importeTotal += calcularBaseAntiguedad(i);
     }
@@ -145,33 +151,32 @@ function iniciarApp() {
 
 //* Funcion para validar cadena
 function validarNombre(nombre) {
-    let txt = '';
-    if (nombre.length > 20) {
-        txt = 'El nombre no puede sobrepasar los 10 caracteres';
-    } 
-    return txt;
+    if (nombre.length < 20) {
+        return true;
+    } else {
+        return false;
+    }
 }
 
 //* Función para validar si el número es entero
-function validarCategoria(categoria){
-    let txt = '';
-    if(!Number(categoria)){
-        txt = 'El valor debe de ser un numero entero';
-    } else if (categoria < 1 || categoria > 3){
-        txt = 'La categoría debe estar entre los valores "1" y "3"';
+function validarCategoria(categoria) {
+    if (Number(categoria)) {
+        return true;
+    } else if (categoria < 1 || categoria > 3) {
+        return false;
     }
-    return txt;
 }
 
 //* Funcion para validar el año de contratación, pongo además < 1955 por el simple hecho de que la edad sobrepasa el año de jubilacion 
-function validarContratacion(contratacion){
-    let txt = '';
+function validarContratacion(contratacion) {
     let objetoAnio = new Date();
     let anio = objetoAnio.getFullYear()
-    if(!Number(contratacion)){
-        txt = 'El valor debe de ser un numero entero';
+    if (!Number(contratacion)) {
+        return false;
     } else if (contratacion > anio || contratacion < 1955) {
-        txt = 'Fecha no válida';
+        return false;
+    } else {
+        return true;
     }
 }
 
@@ -187,5 +192,3 @@ function validarContratacion(contratacion){
 let probarIniciarApp = iniciarApp();
 console.log(probarIniciarApp);
 
-
-//? HAY QUE CAMBIAR LOS METODOS DE CREAR, MODIFICAR Y DEMAS PARA QUE USEN LAS VALIDACIONES CORRECTAMENTE
