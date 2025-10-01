@@ -8,9 +8,10 @@ let trabajadores = [
 ];
 
 /**
- ** Metodos de del objeto 
+ ** Metodos del objeto 
  */
 
+ //* Función para listar todos los trabajadores, uso foreach=> por que no voy a modificar los datos del objeto, solo a mostrarlos
 function listarTrabajadores(trabajadores) {
     let resultado = '';
     trabajadores.forEach(trabajador => {
@@ -20,33 +21,39 @@ function listarTrabajadores(trabajadores) {
     return alert(resultado);
 }
 
+//* Funcion para crear el trabajador, pido los datos al usuario y los valido antes de itroducirlos al nuevo objeto trabajador. 
+//* Con concat devuelvo un nuevo array en vez de mutar el que ya tenia.
 function crearTrabajador() {
     let nombre = prompt('Introduce el nombre del nuevo trabajador');
     let categoria = parseInt(prompt('Introduce la categoría del nuevo trabajador'));
     let contratacion = parseInt(prompt('Introduce el año de contratacion del nuevo trabajador'));
 
-    //* mejor forma de sacar el codigo
+    //* Mejor forma de sacar el codigo
     let codigo = `E${trabajadores.length + 1 < 9 ? `0${trabajadores.length + 1}` : `${trabajadores.length + 1}`}`;
+
     if (validarNombre(nombre) && validarCategoria(categoria) && validarContratacion(contratacion)) {
        let nuevoTrabajador = { codigo: codigo, nombre: nombre, categoria: categoria, contratacion: contratacion };
+       //* Push muta el array, concat devuelve uno nuevo
         trabajadores = trabajadores.concat(nuevoTrabajador);
         return listarTrabajadores(trabajadores);
     } else {
         alert('Has introducido mal uno de los campos');
     }
 
-    //* forma turbia de sacar el codigo
+    //* Forma turbia de sacar el codigo
     // for (let i = 0; i <= trabajadores.length + 1; i++){
     //     codigo = `E${i < 9 ? `0${i}` : `${i}`}`;
     // }
 
-    //* push muta el array, concat devuelve uno nuevo
 }
 
+//* Función para borrar el trabajador, pregunta al usuario confirmación, filtro por el usuario que tiene ese codigo y devuelvo el nuevo array con los datos de los usuarios que 
+//* no tienen el código seleccioado
 function borrarTrabajador(codigo) {
     let confirmacion = confirm('¿Está seguro de que quiere borrar al trabajador?');
     if (confirmacion) {
         let trabajadoresEncontrados = trabajadores.filter(t => t.codigo !== codigo);
+        //* Si tienen la misma longitud quiere decir que no ha encotrado el usuario con ese codigo y está devolviendo todos, es decir no existe
         if (trabajadoresEncontrados.length == trabajadores.length) {
             alert('No se ha encontrado al trabajador');
         } else {
@@ -58,6 +65,8 @@ function borrarTrabajador(codigo) {
     return listarTrabajadores(trabajadores);
 }
 
+//* Función para modificar el trabajador, filtro por código y obtengo el trabajador en cuestión, si se da a cancelar el trabajador no se modifica y se queda con los datos por defecto,
+//* si no se cambian con los nuevos datos (no se puede dejar un campo sin modificar, ya sé que no es lo más eficiente)
 function modificarTrabajador(codigo) {
     let trabajadorEncontrado = trabajadores.filter(t => t.codigo == codigo);
     let valoresActuales = '';
@@ -87,6 +96,7 @@ function modificarTrabajador(codigo) {
     }
 }
 
+//* Función para listar nominas, simplemente recorro los trbajadores con for of y saco cada nomina ya calculada
 function listarNominas() {
     let listadoNominas = '--LISTADO DE NOMINAS--\n';
     let importeTotal = 0;
@@ -100,6 +110,8 @@ function listarNominas() {
 
     return alert(listadoNominas);
 }
+
+//* Función para calcular la antiguedad, saco los años que lleva en la empresa y lo calculo mediante la base de antiguedad
 function calcularBaseAntiguedad(trabajador) {
     let objetoAnio = new Date();
     let anio = objetoAnio.getFullYear();
@@ -121,8 +133,8 @@ function calcularBaseAntiguedad(trabajador) {
     return nominaTrabajador;
 }
 
+//* Funcion que sirve de menu, el !isNan(opcion) es por que el prompt con el parseInt al darle a cancelar devuelve NaN, si no devolvería null
 function iniciarApp() {
-
     let opcion = '';
     do {
         opcion = parseInt(prompt('Menú gestión de empresa: Trabajadores\nSelecciona una opción:\n1. Listar Trabajadores\n2. Crear Trabajador\n3. Borrar Trabajador\n4. Modificar Trabajador\n5. Listar Nóminas'));
