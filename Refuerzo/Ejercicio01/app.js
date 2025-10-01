@@ -1,0 +1,52 @@
+function anagramas(cadena, cadena1) {
+    let txt = '';
+    if (cadena == cadena1) {
+        txt = `Dos palabras iguales no pueden ser anagramas`;
+    }
+    
+    let contadorCadena = {};
+    let contadorCadena1 = {};
+    for (let i = 0; i <= cadena.length - 1; i++) {
+        if(contadorCadena[cadena[i]] == undefined){
+            contadorCadena[cadena[i]] = 1;
+        } else {
+            contadorCadena[cadena[i]] += 1;
+        }
+    }
+    for (let i = 0; i <= cadena1.length - 1; i++) {
+        if(contadorCadena1[cadena1[i]] == undefined){
+            contadorCadena1[cadena1[i]] = 1;
+        } else {
+            contadorCadena1[cadena1[i]] += 1;
+        }
+    }
+    let numeroCaracteresCadena = 0;
+    let numeroCaracteresCadena1 = 0;
+
+    //* Recorro los objetos con for in 
+    for (i in contadorCadena){
+        numeroCaracteresCadena += contadorCadena[i];
+    }
+    
+    for (i in contadorCadena1){
+        numeroCaracteresCadena1+= contadorCadena1[i]; 
+    }
+    
+    if(numeroCaracteresCadena == numeroCaracteresCadena1){
+        txt = `${cadena} y ${cadena1} son anagramas`;
+    } else {
+        txt = `${cadena} y ${cadena1} NO son anagramas`;
+    }
+    
+   
+    console.log(contadorCadena);
+    console.log(contadorCadena1);
+
+
+    return txt;
+}
+
+let funcion = anagramas('colinas', 'nicolas');
+console.log(funcion);
+
+//? MODIFICAR FOR IN ANAGRAMAS
