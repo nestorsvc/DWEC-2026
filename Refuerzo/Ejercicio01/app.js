@@ -6,6 +6,8 @@ function anagramas(cadena, cadena1) {
     
     let contadorCadena = {};
     let contadorCadena1 = {};
+
+    //* Creo dos objetos donde voy guradando cada letra y el numero de veces que sale
     for (let i = 0; i <= cadena.length - 1; i++) {
         if(contadorCadena[cadena[i]] == undefined){
             contadorCadena[cadena[i]] = 1;
@@ -20,25 +22,22 @@ function anagramas(cadena, cadena1) {
             contadorCadena1[cadena1[i]] += 1;
         }
     }
-    console.log(contadorCadena1);
-    console.log(contadorCadena);
     
-
-    let numeroCaracteresCadena = 0;
-    let numeroCaracteresCadena1 = 0;
-
-    //* Recorro los objetos con for in 
+    //* Recorro los objetos con for in, primero comrpuebo si la letra existe en la segunda cadena, luego compruebo si el numero de veces que sale es el mismo que en la segunda cadena
+    //* (esto se puede hacer debido a que ambos objetos estan ordenados alfabeticamente)
     for (i in contadorCadena){
-        if(){
-        txt = `${cadena} y ${cadena1} son anagramas`;
-        } else {
+        if(!contadorCadena1[i]){
         txt = `${cadena} y ${cadena1} NO son anagramas`;
+        } else if(contadorCadena1[i] !== contadorCadena[i]) {
+        txt = `${cadena} y ${cadena1} NO son anagramas`;
+        } else {
+            txt = `${cadena} y ${cadena1} son anagramas`;
         }
     }
     return txt;
 }
 
-let funcion = anagramas('colinas', 'nicolas');
+let funcion = anagramas('frio', 'oifr');
 console.log(funcion);
 
 //? MODIFICAR FOR IN ANAGRAMAS
