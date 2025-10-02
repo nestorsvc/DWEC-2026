@@ -20,29 +20,21 @@ function anagramas(cadena, cadena1) {
             contadorCadena1[cadena1[i]] += 1;
         }
     }
+    console.log(contadorCadena1);
+    console.log(contadorCadena);
+    
+
     let numeroCaracteresCadena = 0;
     let numeroCaracteresCadena1 = 0;
 
     //* Recorro los objetos con for in 
     for (i in contadorCadena){
-        numeroCaracteresCadena += contadorCadena[i];
-    }
-    
-    for (i in contadorCadena1){
-        numeroCaracteresCadena1+= contadorCadena1[i]; 
-    }
-    
-    if(numeroCaracteresCadena == numeroCaracteresCadena1){
+        if(){
         txt = `${cadena} y ${cadena1} son anagramas`;
-    } else {
+        } else {
         txt = `${cadena} y ${cadena1} NO son anagramas`;
+        }
     }
-    
-   
-    console.log(contadorCadena);
-    console.log(contadorCadena1);
-
-
     return txt;
 }
 
