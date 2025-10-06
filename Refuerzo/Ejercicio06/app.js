@@ -45,11 +45,11 @@ function ponerHumano(matriz, x, y, ficha) {
         alert('Posicion ya ocupada');
     }
     if (comprobarEstado(matriz) == 'x') {
-        return true;
+        alert('Las x han ganado');
     }
-    comprobarEstado(matriz);
     return dibujarTablero(matriz);
 }
+
 function ponerMaquina(matriz, ficha) {
     for (let i = 0; i < matriz.length; i++) {
         for (let j = 0; j < matriz.length; j++) {
@@ -97,5 +97,21 @@ function dibujarTablero(matriz) {
     return tablero;
 }
 
+function menu(){
+    let fichaHumano = 'x';
+    let fichaMaquina = 'o';
+    let estado = '';
+    do {
+    alert('Introduce las coordenadas:');
+    let x = parseInt(prompt('X:'));
+    let y = parseInt(prompt('Y:'));
+    ponerHumano(matriz, x, y, fichaHumano)
+    ponerMaquina(matriz, fichaMaquina);
+    estado = comprobarEstado(matriz);
+    } while (estado == " " && estado == "estado")
+}
 
-console.log(resultado);
+
+let probarMenu = menu();
+console.log(probarMenu);
+

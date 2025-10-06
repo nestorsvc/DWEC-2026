@@ -1,19 +1,23 @@
-#titulo{
-    text-align: center;
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-}
-#container{
+body {
+    font-family: Arial, sans-serif;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
-    height: 100vh;
-    margin: 0;
-}
-#tablero{
-    width: 200px;
-    height: 300px;
-    background-color: lightblue;
-    text-align: center;
-    line-height: 100px;
+    margin-top: 50px;
 }
 
+#titulo {
+    margin-bottom: 20px;
+}
+
+#tablero {
+    font-size: 2em;
+    line-height: 2.5em; /* esto separa las filas */
+    text-align: center;
+    white-space: pre; /* conserva los espacios y saltos de línea */
+}
+
+#tablero span {
+    display: inline-block;
+    width: 2em; /* ancho de cada celda */
+}
