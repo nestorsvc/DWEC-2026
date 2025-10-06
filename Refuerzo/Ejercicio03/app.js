@@ -45,7 +45,7 @@ function codificadorMorse(cadena) {
     //* Paso la cadena a mayuscula, la recorro y por cada letra busco su equivalente en morse, luego formateo la salida en funcion de si hay espacio entre palabras o 
     //* entre caracteres
     let cadenaMayuscula = cadena.toUpperCase();
-   //! ESTO SI QUE FUNCIONA POR QUE EL OBJETO ES PARA CODIFICAR A MORSE
+   //! ESTO SI QUE FUNCIONA POR QUE EL OBJETO ES PARA CODIFICAR A MORSE (CLAVE: LETRA, VALOR:MORSE)
     for (let i = 0; i < cadenaMayuscula.length + 1; i++) {
         
         let letra = cadenaMayuscula[i];
@@ -58,7 +58,7 @@ function codificadorMorse(cadena) {
         }
     }
 
-    //! ESTO NO FUNCIONA POR QUE AL INTENTAR ACCEDER A MORSE[LETRAMORSE], ACCEDE A LA CLAVE NO AL VALOR, POR LO QUE DA UNDEFINED
+    //! ESTO NO FUNCIONA POR QUE AL INTENTAR ACCEDER A MORSE[LETRAMORSE], ACCEDE A LA CLAVE(LETRA) NO AL VALOR (MORSE), POR LO QUE DA UNDEFINED
     let resultado = '';
     cadenaAMorse = cadena;
     let palabras = cadenaAMorse.split('  ');
