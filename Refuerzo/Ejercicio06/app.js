@@ -39,15 +39,31 @@ function comprobarEstado(matriz) {
 }
 
 function ponerHumano(matriz, x, y, ficha) {
+    let mensaje = document.getElementById('mensaje');
+    let estado = '';
     if (matriz[x][y] == " ") {
         matriz[x][y] = ficha;
+        estado = comprobarEstado(matriz);
     } else {
-        alert('Posicion ya ocupada');
+        mensaje.innerHTML = 'Posicion ocupada'
     }
-    if (comprobarEstado(matriz) == 'x') {
-        alert('Las x han ganado');
+    if (estado == 'empate') {
+        mensaje.innerHTML = 'Empate!';
+        return;
     }
-    return dibujarTablero(matriz);
+    if(estado == 'x'){
+        mensaje.innerHTML = 'Ganaste!';
+        return;
+    }
+    if (estado == 'o'){
+        mensaje.innerHTML = 'Gano la maquina!'
+        return;
+    }
+    if(estado == ' '){
+        ponerMaquina(matriz,'o');
+    }
+    dibujarTablero(matriz);
+    return;
 }
 
 function ponerMaquina(matriz, ficha) {
@@ -79,39 +95,26 @@ function ponerMaquina(matriz, ficha) {
 
     } while (matriz[x][y] !== " ")
     matriz[x][y] = ficha;
-    return dibujarTablero(matriz);
+    return;
 }
 function dibujarTablero(matriz) {
     let tablero = document.getElementById('tablero');
-    let html = ``;
+    
+    tablero.innerHTML = '';
     for (let i = 0; i < matriz.length; i++) {
         for (let j = 0; j < matriz.length; j++) {
-            html += `${matriz[i][j]}`;
-            if (j < 2) {
-                html += '|';
-            }
+            let celda = document.createElement('div');
+            celda.textContent = matriz[i][j];
+            tablero.appendChild(celda);
+            celda.addEventListener("click",()=>{
+                ponerHumano(matriz,i,j,'x');
+            });
         }
-        html += '<br>';
     }
-    tablero.innerHTML = html;
+   
     return tablero;
 }
 
-function menu(){
-    let fichaHumano = 'x';
-    let fichaMaquina = 'o';
-    let estado = '';
-    do {
-    alert('Introduce las coordenadas:');
-    let x = parseInt(prompt('X:'));
-    let y = parseInt(prompt('Y:'));
-    ponerHumano(matriz, x, y, fichaHumano)
-    ponerMaquina(matriz, fichaMaquina);
-    estado = comprobarEstado(matriz);
-    } while (estado == " " && estado == "estado")
-}
-
-
-let probarMenu = menu();
-console.log(probarMenu);
+let probarDibujarTablero = dibujarTablero(matriz);
+console.log(probarDibujarTablero);
 

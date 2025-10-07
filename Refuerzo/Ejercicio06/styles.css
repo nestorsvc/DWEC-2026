@@ -10,14 +10,39 @@ body {
     margin-bottom: 20px;
 }
 
+/* Contenedor principal del tablero */
 #tablero {
-    font-size: 2em;
-    line-height: 2.5em; /* esto separa las filas */
-    text-align: center;
-    white-space: pre; /* conserva los espacios y saltos de línea */
+  display: grid;                     /* Activamos el modo cuadrícula */
+  grid-template-columns: repeat(3, 100px);  /* 3 columnas de 100px cada una */
+  grid-template-rows: repeat(3, 100px);     /* 3 filas de 100px cada una */
+  gap: 5px;                          /* Espacio entre celdas */
+  justify-content: center;           /* Centra el tablero horizontalmente */
+  margin: 30px auto;                 /* Margen automático para centrar */
 }
 
-#tablero span {
-    display: inline-block;
-    width: 2em; /* ancho de cada celda */
+/* Cada celda */
+#tablero div {
+  display: flex;                     /* Centra el texto dentro */
+  justify-content: center;           
+  align-items: center;
+  font-size: 2.5rem;                 /* Tamaño del texto grande */
+  font-weight: bold;
+  border: 2px solid #333;            /* Bordes para simular el tablero */
+  cursor: pointer;                   /* Cambia el puntero al pasar el ratón */
+  background-color: #fafafa;         /* Fondo claro */
+  transition: background-color 0.2s; /* Pequeña animación al pasar el ratón */
 }
+
+/* Efecto al pasar el ratón */
+#tablero div:hover {
+  background-color: #eee;
+}
+
+/* Mensaje de estado (ganador, turno, empate...) */
+#mensaje {
+  text-align: center;
+  font-size: 1.5rem;
+  margin-top: 15px;
+  color: #333;
+}
+
