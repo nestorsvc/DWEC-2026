@@ -45,6 +45,6 @@ function expresionesEquilibradas(expresion) {
     return 'La expresion es correcta';
   }
 }
-let resultado = expresionesEquilibradas("{ [ a * ( c + d ) ] - 5 } ");
+let resultado = expresionesEquilibradas("{ [ a * ( c + d ) ] - 5 }");
 console.log(resultado);
 
