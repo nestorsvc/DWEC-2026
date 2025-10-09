@@ -1,55 +1,40 @@
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f2f2f2;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+  font-family: Arial, sans-serif;
+  background: #f2f2f2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 }
 
 #formulario {
-    background-color: #fff;
-    padding: 20px 30px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    width: 280px;
+  background: #fff;
+  padding: 20px;
+  width: 250px;
 }
 
 form {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
-label {
-    margin-top: 10px;
-    font-weight: bold;
-    color: #333;
+label, input, button {
+  margin-top: 10px;
 }
 
-input {
-    padding: 8px;
-    margin-top: 5px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    outline: none;
-    transition: border-color 0.3s;
-}
-
-input:focus {
-    border-color: #007BFF;
+input, button {
+  padding: 8px;
+  border: 1px solid #ccc;
 }
 
 button {
-    margin-top: 15px;
-    padding: 10px;
-    background-color: #007BFF;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-weight: bold;
+  background: #007bff;
+  color: white;
+  border: 1px solid #007bff;
+  cursor: pointer;
 }
 
-button:hover {
-    background-color: #0056b3;
+p {
+  color: red;
+  margin-top: 10px;
 }
