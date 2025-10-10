@@ -1,12 +1,4 @@
 document.addEventListener("DOMContentLoaded", function () {
-    //Escribe una función que reciba un importe en euros y devuelva en un array el importe
-    // introducido como parámetro repartido en billetes de 200, 100, 50, 10, 5 y monedas de 2 y
-    // 1 euros. La devolución empleara siempre la moneda de mayor valor disponible.
-    // Para probarlo crea una web que incluya los campos de entrada “Importe producto”,
-    // “Importe entregado” un botón para “Cobrar”. Y como elementos de salida un contenedor
-    // para el “importe total a devolver” y otro contenedor “cambio” en el que se muestre la
-    // devolución resultado de la llamada a la función, formatea la salida para mostrar cada
-    // valor devuelto en una línea nueva. 
 
     let btnCobrar = document.getElementById('btnCobrar');
     let resultado = document.getElementById('resultado');
