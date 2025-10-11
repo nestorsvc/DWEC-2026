@@ -47,17 +47,19 @@ $negocio = (function () {
     function buscarProducto(nombre) {
 
         //*Devolviendolo como objeto
-        for (i in productos) {
-            if (i === nombre) {
-                return Object.entries(productos[i]);
-            }
-        }
+        // for (i in productos) {
+        //     if (i === nombre) {
+        //         return (productos[i]);
+        //     }else{
+        //         return false;
+        //     }
+        // }
 
 
         //*Pasandolo a array, devolviendolo como array
-        // let arrayProductos = Object.entries(productos);
-        // let indiceProducto = arrayProductos.findIndex(producto => producto[0] === nombre);
-        // return arrayProductos[indiceProducto];
+        let arrayProductos = Object.entries(productos);
+        let indiceProducto = arrayProductos.findIndex(producto => producto[0] === nombre);
+        return arrayProductos[indiceProducto];
     }
 
     function actualizarInventario(nombre, cantidad) {
@@ -66,8 +68,8 @@ $negocio = (function () {
                 let cantidadAux = productos[i].cantidad;
                 cantidadAux += cantidad;
                 if (cantidadAux < 0) {
-                    productos[i].cantidad0 = 0;
-                    return 'reposicion';
+                    productos[i].cantidad = 0;
+                    return Object.entries(productos);
                 } else {
                     productos[i].cantidad = cantidadAux;
                     return Object.entries(productos);
@@ -81,8 +83,8 @@ $negocio = (function () {
         let arrayProductos = Object.entries(productos);
         //* Si solo hago, a - b, estaria restando arrays, lo que hay que hacer es acceder a las propiedades de esos arrays, usando b[1].(propiedad)
         let ordenadoPorPrecio = arrayProductos.toSorted((a, b) => a[1].precio - b[1].precio);
-        let productosOrdenados = Object.fromEntries(ordenadoPorPrecio);
-        return productosOrdenados;
+        // let productosOrdenados = Object.fromEntries(ordenadoPorPrecio);
+        return ordenadoPorPrecio;
     }
 
     function imprimirInventario() {
@@ -99,11 +101,11 @@ $negocio = (function () {
         let arrayCategoriaProducto = [];
         arrayProductos.forEach(producto => {
             if (producto[1].categoria == categoria) {
-                arrayCategoriaProducto.push(producto[0], producto[1].cantidad, producto[1].precio);
+                return producto;
+                // arrayCategoriaProducto.push(producto[0], producto[1].cantidad, producto[1].precio);
             }
 
         });
-        return arrayCategoriaProducto;
 
     }
     return {
@@ -133,11 +135,18 @@ window.addEventListener("load", () => {
     let btnImprimirInventario = document.getElementById("btnImprimirInventario");
     let btnFiltrarProductos = document.getElementById("btnFiltrarProductos");
 
+    let mensajes = document.getElementById("mensajes");
+
 
     //* Recogo el evento click del boton de agregar producto, y dentro creo un formulario para añadir un producto   
 
+
+    //? EVENTO AGREGAR PRODUCTO
+
     bntAgregarProducto.addEventListener("click", () => {
         container.innerHTML = '';
+        mensajes.innerHTML = '';
+
         let formularioAgregarProducto = document.createElement("div");
 
         formularioAgregarProducto.innerHTML = `
@@ -180,31 +189,400 @@ window.addEventListener("load", () => {
       <th>Categoría</th>
     </tr>
   </thead>
-  <tbody id="cuerpoTabla">
+  <tbody">
 `
             if (resultado !== false) {
                 resultado.forEach(producto => {
-                    html+= `<tr>
+                    html += `<tr>
                     <td>${producto[0]}</td>
                     <td>${producto[1].cantidad}</td>
                     <td>${producto[1].precio}</td>
                     <td>${producto[1].categoria}</td>
                     </tr>`;
-                    
-                }); {
-                }
+
+                });
+
                 html += `</tbody>
                 </table>`;
+                mensajes.innerHTML = '';
+                let mensaje = document.createElement('p');
+                mensaje.textContent = 'Producto agregado correctamente';
+                mensajes.appendChild(mensaje);
+                container.innerHTML = html;
             } else {
+                mensajes.innerHTML = '';
                 let mensaje = document.createElement('p');
                 mensaje.textContent = 'No se pudo agregar el producto';
-                formularioAgregarProducto.appendChild(mensaje);
+                mensajes.appendChild(mensaje);
             }
-            container.innerHTML = html;
         });
     });
 
+    //? EVENTO ELIMINAR PRODUCTO
 
+    bntEliminarProducto.addEventListener("click", () => {
+        container.innerHTML = '';
+        mensajes.innerHTML = '';
+
+        let formularioEliminarProducto = document.createElement("div");
+
+        formularioEliminarProducto.innerHTML = `
+        <form id="formularioEliminarProducto">
+      <label for="nombre">Nombre:</label>
+      <input type="text" id="nombre" required><br>
+      <button type="button" id="eliminarProducto">Eliminar</button>
+    </form>
+        `;
+        container.appendChild(formularioEliminarProducto);
+
+
+        let eliminarProducto = document.getElementById("eliminarProducto");
+        eliminarProducto.addEventListener("click", () => {
+            let nombre = document.getElementById("nombre").value;
+
+            let resultado = $negocio.eliminarProducto(nombre);
+
+            let html = `
+    <table border="1">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Cantidad</th>
+            <th>Precio</th>
+            <th>Categoría</th>
+        </tr>
+  </thead>
+  <tbody ">
+`
+            if (resultado !== false) {
+                console.log('hola');
+
+                resultado.forEach(producto => {
+                    html += `
+                    <tr>
+                    <td>${producto[0]}</td>
+                    <td>${producto[1].cantidad}</td>
+                    <td>${producto[1].precio}</td>
+                    <td>${producto[1].categoria}</td>
+                    </tr>
+                    `
+                });
+                html += `</tbody>
+                </table>`
+                let mensaje = document.createElement('p');
+                mensajes.innerHTML = '';
+                mensaje.textContent = 'Producto eliminado correctamente';
+                mensajes.appendChild(mensaje);
+                container.innerHTML = html;
+            } else {
+                mensajes.innerHTML = '';
+                let mensaje = document.createElement('p');
+                mensaje.textContent = 'El producto no existe';
+                mensajes.appendChild(mensaje);
+            }
+
+        });
+
+    });
+
+    //? EVENTO BUSCAR PRODCUTO
+
+    btnBuscarProducto.addEventListener("click", () => {
+        container.innerHTML = ' ';
+        mensajes.innerHTML = ' ';
+
+        let formularioBuscarProducto = document.createElement("div");
+
+        formularioBuscarProducto.innerHTML = `
+        <form id="formularioBuscarProducto">
+      <label for="nombre">Nombre:</label>
+      <input type="text" id="nombre" required><br>
+      <button type="button" id="buscarProducto">Buscar</button>
+    </form>
+        `;
+
+        container.appendChild(formularioBuscarProducto);
+
+        let buscarProducto = document.getElementById("buscarProducto");
+
+        buscarProducto.addEventListener("click", () => {
+            let nombre = document.getElementById("nombre").value;
+
+            let resultado = $negocio.buscarProducto(nombre);
+
+            let html = `
+    <table border="1">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Cantidad</th>
+            <th>Precio</th>
+            <th>Categoría</th>
+        </tr>
+  </thead>
+  <tbody>
+`
+            if (resultado !== false) {
+                html += `
+                <tr>
+                <td>${resultado[0]}</td>
+                <td>${resultado[1].cantidad}</td>
+                <td>${resultado[1].precio}</td>
+                <td>${resultado[1].categoria}</td>
+                </tr>
+                 </tbody>
+                </table>`
+                container.innerHTML = html;
+            } else {
+                mensajes.innerHTML = '';
+                let mensaje = document.createElement('p');
+                mensaje.textContent = 'El producto no existe';
+                mensajes.appendChild(mensaje);
+            }
+
+        });
+
+    });
+
+    //? EVENETO ACTUALIZAR INVENTARIO
+
+    btnActualizarInventario.addEventListener("click", () => {
+        mensajes.innerHTML = ' ';
+        container.innerHTML = ' ';
+        let formularioActualizarInventario = document.createElement("div");
+
+        formularioActualizarInventario.innerHTML = `
+        <form id="formularioActualizarInventario">
+      <label for="nombre">Nombre:</label>
+      <input type="text" id="nombre" required><br>
+      
+      <label for="cantidad">Cantidad:</label>
+      <input type="number" id="cantidad" required><br>
+
+      <button type="button" id="actualizarInventario">Actualizar</button>
+    </form>
+        `;
+
+        container.appendChild(formularioActualizarInventario);
+
+        let actualizarInventario = document.getElementById("actualizarInventario");
+
+        actualizarInventario.addEventListener("click", () => {
+            let nombre = document.getElementById("nombre").value;
+
+            let cantidad = document.getElementById("cantidad").value;
+
+            let cantidadAEntero = parseInt(cantidad);
+
+
+
+            let resultado = $negocio.actualizarInventario(nombre, cantidadAEntero);
+            let productoEncontrado = [];
+            for (i in resultado) {
+                if (resultado[i][0] == nombre) {
+                    productoEncontrado[productoEncontrado.length] = resultado[i];
+                }
+            }
+            console.log(productoEncontrado);
+
+
+            let html = `
+<table border="1">
+  <thead>
+    <tr>
+      <th>Nombre</th>
+      <th>Cantidad</th>
+      <th>Precio</th>
+      <th>Categoría</th>
+    </tr>
+  </thead>
+  <tbody">
+`
+            if (resultado !== false) {
+                resultado.forEach(producto => {
+                    html += `<tr>
+                    <td>${producto[0]}</td>
+                    <td>${producto[1].cantidad}</td>
+                    <td>${producto[1].precio}</td>
+                    <td>${producto[1].categoria}</td>
+                    </tr>`;
+
+                });
+                html += `</tbody>
+                </table>`;
+
+                productoEncontrado.forEach(producto => {
+
+                    if (producto[1].cantidad == 0) {
+
+                        mensajes.innerHTML = '';
+                        let mensaje = document.createElement('p');
+                        mensaje.textContent = 'Sin stock. El producto necesita reposicion';
+                        mensajes.appendChild(mensaje);
+                        container.innerHTML = html;
+                    } else {
+
+                        mensajes.innerHTML = '';
+                        let mensaje = document.createElement('p');
+                        mensaje.textContent = 'Producto actualizado correctamente';
+                        mensajes.appendChild(mensaje);
+                        container.innerHTML = html;
+                    }
+                });
+            } else {
+                mensajes.innerHTML = '';
+                let mensaje = document.createElement('p');
+                mensaje.textContent = 'Producto no encontrado';
+                mensajes.appendChild(mensaje);
+            }
+        });
+
+    });
+
+    //? EVENTO ORDENAR PRODUCTOS
+
+        btnOrdenarProductos.addEventListener("click", () => {
+        container.innerHTML = '';
+        mensajes.innerHTML = '';
+
+
+            let resultado = $negocio.ordenarProductosPorPrecio();
+
+            let html = `
+    <table border="1">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Cantidad</th>
+            <th>Precio</th>
+            <th>Categoría</th>
+        </tr>
+  </thead>
+  <tbody ">
+`
+            if (resultado !== null) {
+                resultado.forEach(producto => {
+                    html += `
+                    <tr>
+                    <td>${producto[0]}</td>
+                    <td>${producto[1].cantidad}</td>
+                    <td>${producto[1].precio}</td>
+                    <td>${producto[1].categoria}</td>
+                    </tr>
+                    `
+                });
+                html += `</tbody>
+                </table>`;
+                container.innerHTML = html;
+            } else {
+                mensajes.innerHTML = '';
+                let mensaje = document.createElement('p');
+                mensaje.textContent = 'Hubo un fallo a la hora de generar los productos';
+                mensajes.appendChild(mensaje);
+            }
+    });
+    
+        btnImprimirInventario.addEventListener("click", () => {
+        container.innerHTML = '';
+        mensajes.innerHTML = '';
+
+            let resultado = $negocio.imprimirInventario();
+
+
+            let html = `
+    <table border="1">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Cantidad</th>
+            <th>Precio</th>
+            <th>Categoría</th>
+            <th>Total</th>
+        </tr>
+  </thead>
+  <tbody ">
+`
+            if (resultado !== null) {
+                resultado.forEach(producto => {
+                    html += `
+                    <tr>
+                    <td>${producto[0]}</td>
+                    <td>${producto[1].cantidad}</td>
+                    <td>${producto[1].precio}</td>
+                    <td>${producto[1].categoria}</td>
+                    <td>${producto[1].total}</td>
+                    </tr>
+                    `
+                });
+                html += `</tbody>
+                </table>`;
+                container.innerHTML = html;
+            } else {
+                mensajes.innerHTML = '';
+                let mensaje = document.createElement('p');
+                mensaje.textContent = 'Hubo un fallo a la hora de generar los productos';
+                mensajes.appendChild(mensaje);
+            }
+    });
+
+
+    //? EVENTO FILTRAR POR CATEGORIA
+
+      btnFiltrarProductos.addEventListener("click", () => {
+        container.innerHTML = ' ';
+        mensajes.innerHTML = ' ';
+
+        let formularioFiltrarCategoria = document.createElement("div");
+
+        formularioFiltrarCategoria.innerHTML = `
+        <form id="formularioFiltrarCategoria">
+      <label for="categoria">Categoria:</label>
+      <input type="text" id="categoria" required><br>
+      <button type="button" id="buscarCategoria">Buscar</button>
+    </form>
+        `;
+
+        container.appendChild(formularioFiltrarCategoria);
+
+        let buscarCategoria = document.getElementById("buscarCategoria");
+
+        buscarCategoria.addEventListener("click", () => {
+            let categoria = document.getElementById("categoria").value;
+
+            let resultado = $negocio.filtrarProductosPorCategoria(categoria);
+            console.log(resultado);
+            
+            let html = `
+    <table border="1">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Cantidad</th>
+            <th>Precio</th>
+        </tr>
+  </thead>
+  <tbody>
+`
+            if (resultado !== false) {
+                resultado.forEach(producto => {
+                    html += `
+                    <tr>
+                    <td>${producto}</td>
+                    </tr>`;
+                });
+
+                html += ` </tbody>
+                </table>`;
+                container.innerHTML = html;
+            } else {
+                mensajes.innerHTML = '';
+                let mensaje = document.createElement('p');
+                mensaje.textContent = 'La categoría no existe';
+                mensajes.appendChild(mensaje);
+            }
+        });
+
+    });
 
 });
 console.log($negocio);
