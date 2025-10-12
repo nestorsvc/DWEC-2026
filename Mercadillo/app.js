@@ -1,4 +1,4 @@
-let productos = {
+const productos = {
     "Manzanas": {
         cantidad: 50,
         precio: 0.75,
@@ -95,18 +95,16 @@ $negocio = (function () {
         return arrayProductos;
 
     }
-
+    
     function filtrarProductosPorCategoria(categoria) {
         let arrayProductos = Object.entries(productos);
-        let arrayCategoriaProducto = [];
+        let resultado = [];
         arrayProductos.forEach(producto => {
             if (producto[1].categoria == categoria) {
-                return producto;
-                // arrayCategoriaProducto.push(producto[0], producto[1].cantidad, producto[1].precio);
-            }
-
-        });
-
+                resultado.push(producto);            
+                }
+            });
+            return resultado;
     }
     return {
         agregarProducto: agregarProducto,
@@ -178,7 +176,6 @@ window.addEventListener("load", () => {
 
 
             let resultado = $negocio.agregarProducto(nombre, cantidad, precio, categoria);
-            console.log(resultado);
             let html = `
 <table border="1">
   <thead>
@@ -241,7 +238,8 @@ window.addEventListener("load", () => {
             let nombre = document.getElementById("nombre").value;
 
             let resultado = $negocio.eliminarProducto(nombre);
-
+            console.log(resultado);
+            
             let html = `
     <table border="1">
     <thead>
@@ -548,7 +546,7 @@ window.addEventListener("load", () => {
 
         buscarCategoria.addEventListener("click", () => {
             let categoria = document.getElementById("categoria").value;
-
+            
             let resultado = $negocio.filtrarProductosPorCategoria(categoria);
             console.log(resultado);
             
@@ -567,7 +565,9 @@ window.addEventListener("load", () => {
                 resultado.forEach(producto => {
                     html += `
                     <tr>
-                    <td>${producto}</td>
+                    <td>${producto[0]}</td>
+                    <td>${producto[1].cantidad}</td>
+                    <td>${producto[1].precio}</td>
                     </tr>`;
                 });
 
@@ -585,4 +585,3 @@ window.addEventListener("load", () => {
     });
 
 });
-console.log($negocio);
