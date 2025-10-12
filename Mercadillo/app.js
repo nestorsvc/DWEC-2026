@@ -24,14 +24,20 @@ const productos = {
 $negocio = (function () {
 
     function agregarProducto(nombre, cantidad, precio, categoria) {
-        for (i in productos) {
-            if (i !== nombre) {
-                productos[nombre] = { cantidad: cantidad, precio: precio, categoria: categoria };
-                return Object.entries(productos);
-            } else {
-                return false;
-            }
+        if (productos[nombre]) {
+            return false;
         }
+        productos[nombre] = { cantidad, precio, categoria };
+        return Object.entries(productos);
+
+        // for (i in productos) {
+        //     if (i !== nombre) {
+        //         productos[nombre] = { cantidad: cantidad, precio: precio, categoria: categoria };
+        //         return Object.entries(productos);
+        //     } else {
+        //         return false;
+        //     }
+        // }
     }
 
     function eliminarProducto(nombre) {
@@ -95,16 +101,16 @@ $negocio = (function () {
         return arrayProductos;
 
     }
-    
+
     function filtrarProductosPorCategoria(categoria) {
         let arrayProductos = Object.entries(productos);
         let resultado = [];
         arrayProductos.forEach(producto => {
             if (producto[1].categoria == categoria) {
-                resultado.push(producto);            
-                }
-            });
-            return resultado;
+                resultado.push(producto);
+            }
+        });
+        return resultado;
     }
     return {
         agregarProducto: agregarProducto,
@@ -231,53 +237,76 @@ window.addEventListener("load", () => {
     </form>
         `;
         container.appendChild(formularioEliminarProducto);
-
-
+        
         let eliminarProducto = document.getElementById("eliminarProducto");
         eliminarProducto.addEventListener("click", () => {
-            let nombre = document.getElementById("nombre").value;
-
-            let resultado = $negocio.eliminarProducto(nombre);
-            console.log(resultado);
+            mensajes.innerHTML = '';
+            let confirmacionHMTL = document.createElement("div");
+            confirmacionHMTL.innerHTML = `
+            <p>¿Estas seguro que deseas eliminar el producto seleccionado?</p>
+            <button type=button id="confirmarEliminarSi">Si</button>
+            <button type=button id="confirmarEliminarNo">No</button>
+            `;
             
-            let html = `
-    <table border="1">
-    <thead>
-        <tr>
-            <th>Nombre</th>
-            <th>Cantidad</th>
-            <th>Precio</th>
-            <th>Categoría</th>
-        </tr>
-  </thead>
-  <tbody ">
-`
-            if (resultado !== false) {
-                console.log('hola');
+            container.appendChild(confirmacionHMTL);
+            
+            let confirmarEliminarSi = document.getElementById("confirmarEliminarSi");
+            let confirmarEliminarNo = document.getElementById("confirmarEliminarNo");
+            
+            confirmarEliminarSi.addEventListener("click", () => {
+                mensajes.innerHTML = '';
+                
+                let nombre = document.getElementById("nombre").value;
+                let resultado = $negocio.eliminarProducto(nombre);
+                
+                console.log(resultado);
 
-                resultado.forEach(producto => {
-                    html += `
-                    <tr>
-                    <td>${producto[0]}</td>
-                    <td>${producto[1].cantidad}</td>
-                    <td>${producto[1].precio}</td>
-                    <td>${producto[1].categoria}</td>
-                    </tr>
-                    `
-                });
-                html += `</tbody>
-                </table>`
-                let mensaje = document.createElement('p');
+                let html = `
+        <table border="1">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Cantidad</th>
+                <th>Precio</th>
+                <th>Categoría</th>
+            </tr>
+      </thead>
+      <tbody ">
+    `
+                if (resultado !== false) {
+                    console.log('hola');
+
+                    resultado.forEach(producto => {
+                        html += `
+                        <tr>
+                        <td>${producto[0]}</td>
+                        <td>${producto[1].cantidad}</td>
+                        <td>${producto[1].precio}</td>
+                        <td>${producto[1].categoria}</td>
+                        </tr>
+                        `
+                    });
+                    html += `</tbody>
+                    </table>`
+                    let mensaje = document.createElement('p');
+                    mensajes.innerHTML = '';
+                    mensaje.textContent = 'Producto eliminado correctamente';
+                    mensajes.appendChild(mensaje);
+                    container.innerHTML = html;
+                } else {
+                    mensajes.innerHTML = '';
+                    let mensaje = document.createElement('p');
+                    mensaje.textContent = 'El producto no existe';
+                    mensajes.appendChild(mensaje);
+                }
+
+            });
+
+            confirmarEliminarNo.addEventListener("click", () => {
+                container.innerHTML = '';
                 mensajes.innerHTML = '';
-                mensaje.textContent = 'Producto eliminado correctamente';
-                mensajes.appendChild(mensaje);
-                container.innerHTML = html;
-            } else {
-                mensajes.innerHTML = '';
-                let mensaje = document.createElement('p');
-                mensaje.textContent = 'El producto no existe';
-                mensajes.appendChild(mensaje);
-            }
+            });
+
 
         });
 
@@ -439,14 +468,14 @@ window.addEventListener("load", () => {
 
     //? EVENTO ORDENAR PRODUCTOS
 
-        btnOrdenarProductos.addEventListener("click", () => {
+    btnOrdenarProductos.addEventListener("click", () => {
         container.innerHTML = '';
         mensajes.innerHTML = '';
 
 
-            let resultado = $negocio.ordenarProductosPorPrecio();
+        let resultado = $negocio.ordenarProductosPorPrecio();
 
-            let html = `
+        let html = `
     <table border="1">
     <thead>
         <tr>
@@ -458,9 +487,9 @@ window.addEventListener("load", () => {
   </thead>
   <tbody ">
 `
-            if (resultado !== null) {
-                resultado.forEach(producto => {
-                    html += `
+        if (resultado !== null) {
+            resultado.forEach(producto => {
+                html += `
                     <tr>
                     <td>${producto[0]}</td>
                     <td>${producto[1].cantidad}</td>
@@ -468,26 +497,26 @@ window.addEventListener("load", () => {
                     <td>${producto[1].categoria}</td>
                     </tr>
                     `
-                });
-                html += `</tbody>
+            });
+            html += `</tbody>
                 </table>`;
-                container.innerHTML = html;
-            } else {
-                mensajes.innerHTML = '';
-                let mensaje = document.createElement('p');
-                mensaje.textContent = 'Hubo un fallo a la hora de generar los productos';
-                mensajes.appendChild(mensaje);
-            }
+            container.innerHTML = html;
+        } else {
+            mensajes.innerHTML = '';
+            let mensaje = document.createElement('p');
+            mensaje.textContent = 'Hubo un fallo a la hora de generar los productos';
+            mensajes.appendChild(mensaje);
+        }
     });
-    
-        btnImprimirInventario.addEventListener("click", () => {
+
+    btnImprimirInventario.addEventListener("click", () => {
         container.innerHTML = '';
         mensajes.innerHTML = '';
 
-            let resultado = $negocio.imprimirInventario();
+        let resultado = $negocio.imprimirInventario();
 
 
-            let html = `
+        let html = `
     <table border="1">
     <thead>
         <tr>
@@ -500,9 +529,9 @@ window.addEventListener("load", () => {
   </thead>
   <tbody ">
 `
-            if (resultado !== null) {
-                resultado.forEach(producto => {
-                    html += `
+        if (resultado !== null) {
+            resultado.forEach(producto => {
+                html += `
                     <tr>
                     <td>${producto[0]}</td>
                     <td>${producto[1].cantidad}</td>
@@ -511,22 +540,22 @@ window.addEventListener("load", () => {
                     <td>${producto[1].total}</td>
                     </tr>
                     `
-                });
-                html += `</tbody>
+            });
+            html += `</tbody>
                 </table>`;
-                container.innerHTML = html;
-            } else {
-                mensajes.innerHTML = '';
-                let mensaje = document.createElement('p');
-                mensaje.textContent = 'Hubo un fallo a la hora de generar los productos';
-                mensajes.appendChild(mensaje);
-            }
+            container.innerHTML = html;
+        } else {
+            mensajes.innerHTML = '';
+            let mensaje = document.createElement('p');
+            mensaje.textContent = 'Hubo un fallo a la hora de generar los productos';
+            mensajes.appendChild(mensaje);
+        }
     });
 
 
     //? EVENTO FILTRAR POR CATEGORIA
 
-      btnFiltrarProductos.addEventListener("click", () => {
+    btnFiltrarProductos.addEventListener("click", () => {
         container.innerHTML = ' ';
         mensajes.innerHTML = ' ';
 
@@ -546,10 +575,10 @@ window.addEventListener("load", () => {
 
         buscarCategoria.addEventListener("click", () => {
             let categoria = document.getElementById("categoria").value;
-            
+
             let resultado = $negocio.filtrarProductosPorCategoria(categoria);
             console.log(resultado);
-            
+
             let html = `
     <table border="1">
     <thead>

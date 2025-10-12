@@ -14,6 +14,16 @@
     align-items: center;
 }
 
+#confirmacionHMTL{
+    display: flex;
+    flex-direction: column; /* 🔹 Coloca texto y botones en columna */
+    justify-content: center;
+    align-items: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: blue;
+    margin-top: 20px; /* 🔹 Espacio respecto al formulario */
+    gap: 10px; /* 🔹 Espacio entre el texto y los botones */
+}
 form {
     display: flex;
     justify-content: center;
