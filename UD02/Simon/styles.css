@@ -1,0 +1,29 @@
+#titulo{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+.container{
+display: flex;
+justify-content: center;
+align-items: center;
+}
+.tabla{
+    display: table;
+    
+}
+.fila{
+    display: table-row;
+}
+.boton{
+    text-align: center;
+    vertical-align: middle;
+    width: 300px;
+    height: 200px;
+    padding: 10px;
+    display: table-cell;
+    border:solid 1px #ccc;
+
+}

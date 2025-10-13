@@ -65,6 +65,9 @@ $negocio = (function () {
         //*Pasandolo a array, devolviendolo como array
         let arrayProductos = Object.entries(productos);
         let indiceProducto = arrayProductos.findIndex(producto => producto[0] === nombre);
+        if(indiceProducto === - 1){
+            return false;
+        }
         return arrayProductos[indiceProducto];
     }
 
@@ -140,7 +143,6 @@ window.addEventListener("load", () => {
     let btnFiltrarProductos = document.getElementById("btnFiltrarProductos");
 
     let mensajes = document.getElementById("mensajes");
-
 
     //* Recogo el evento click del boton de agregar producto, y dentro creo un formulario para añadir un producto   
 
@@ -337,6 +339,7 @@ window.addEventListener("load", () => {
 
             let resultado = $negocio.buscarProducto(nombre);
 
+
             let html = `
     <table border="1">
     <thead>
@@ -424,7 +427,7 @@ window.addEventListener("load", () => {
     </tr>
   </thead>
   <tbody">
-`
+`;
             if (resultado !== false) {
                 resultado.forEach(producto => {
                     html += `<tr>
