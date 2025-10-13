@@ -9,12 +9,14 @@ const colores = ['amarillo','azul','rojo','verde'];
 
 let $simon = (function (){
     
-    let rondaActual = 0;
+    let rondaActual = 4;
     function juego(){
-        let color = Math.floor(Math.random() * colores.length);
-        
-
-        
+        let arrayColoresCadaRonda = [];
+        for (let i = 0; i <= rondaActual; i++){
+            let color  = Math.floor(Math.random() * colores.length);
+            arrayColoresCadaRonda.push(colores[color]);
+            rondaActual--;
+        }
     }
     function pulsarColor(boton){
 
