@@ -13,21 +13,38 @@
         <h1>SIMON DICE</h1>
         <h2>El Juego</h1>
     </div>
-    <div class="container">
-        <div class="tabla">
-            <div class="fila">
-                <div class="celda">
-                    <div class="boton">Rojo</div>
-                    <div class="boton">Verde</div>
-                    
+    <div id="container">
+        <div class="juego">
+            <div class="tabla">
+                <div class="fila">
+                    <div class="celda">
+                        <div class="boton">Rojo</div>
+                        <div class="boton">Verde</div>
+                        
+                    </div>
+                </div>
+                <div class="fila">
+                    <div class="celda">
+                        <div class="boton">Amarillo</div>
+                        <div class="boton">Azul</div>
+                    </div>
                 </div>
             </div>
-            <div class="fila">
-                <div class="celda">
-                    <div class="boton">Amarillo</div>
-                    <div class="boton">Azul</div>
-                </div>
-            </div>
+        </div>
+        <div class="controles">
+            <form>
+                <label for="duracionMilisegundos">Cuanto tiempo se queda encencdido cada color (milisegundos)</label>
+                <input type="number" id="duracionMilisegundos" name="duracionMilisegundos">
+                <button type="button" id="btnDuracionMilisegundos">Añadir</button>
+                <label for="esperaMilisegundos">Cuanto tiempo se espera entre la iluminacion de cada color (milisegundos)</label>
+                <input type="number" id="esperaMilisegundos" name="esperaMilisegundos">
+                <button type="button" id="btnEsperaMilisegundos">Añadir</button>
+
+                <button type="button" id="btnIniciarJuego">Iniciar Juego</button>
+
+            </form>
+            <div id="mejorRacha"></div>
+            <div id="numeroAciertos"></div>
         </div>
     </div>
 </body>

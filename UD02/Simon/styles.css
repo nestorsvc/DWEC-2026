@@ -1,29 +1,66 @@
-#titulo{
+#titulo {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     margin-bottom: 20px;
 }
-.container{
-display: flex;
-justify-content: center;
-align-items: center;
+
+#container {
+    display: flex;
+    flex-direction: row;
 }
-.tabla{
-    display: table;
+
+.juego {
+    flex: 1;
+    justify-content: left;
+    align-items: center;
+}
+
+.controles {
+    flex: 1;
+    justify-content:center;
+    align-items: center;
     
 }
-.fila{
+.controles > form {
+    display: flex;
+    justify-content:center;
+    align-items: center;
+    text-align: center;
+    flex-direction: column;
+}
+.controles > form > label{
+    padding: 10px;
+    width: 100%;
+}
+.controles > form > input{
+    width: 200px;
+
+}
+.controles > form > button{
+    width: 200px;
+}
+#btnIniciarJuego{
+    margin-top: 100px;
+}
+
+.tabla {
+    display: table;
+
+}
+
+.fila {
     display: table-row;
 }
-.boton{
+
+.boton {
     text-align: center;
     vertical-align: middle;
     width: 300px;
     height: 200px;
     padding: 10px;
     display: table-cell;
-    border:solid 1px #ccc;
+    border: solid 1px #ccc;
 
 }
