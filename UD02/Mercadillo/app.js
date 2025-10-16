@@ -61,14 +61,13 @@ $negocio = (function () {
         //     }
         // }
 
-        let aux = {};
+
+        let productoEncontrado = {};
 
         if(nombre in productos){
-            aux[nombre] = {cantidad: productos[nombre].cantidad, precio:  productos[nombre].precio, categoria:  productos[nombre].categoria};
-            console.log(aux);
-            
-            
-            return aux;
+            productoEncontrado[nombre] = {cantidad: productos[nombre].cantidad, precio: productos[nombre].precio, categoria:  productos[nombre].categoria};
+            console.log(productoEncontrado);
+            return productoEncontrado;
         }
 
 
