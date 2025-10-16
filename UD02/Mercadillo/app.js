@@ -1,36 +1,40 @@
+let productos = {
+    "Manzanas": {
+        cantidad: 50,
+        precio: 0.75,
+        categoria: "Frutas"
+    },
+    "Leche": {
+        cantidad: 20,
+        precio: 1.20,
+        categoria: "Lácteos"
+    },
+    "Pan": {
+        cantidad: 30,
+        precio: 0.90,
+        categoria: "Panadería"
+    },
+    "Arroz": {
+        cantidad: 40,
+        precio: 1.10,
+        categoria: "Cereales"
+    }
+};
 
 $negocio = (function () {
 
-    let productos = {
-        "Manzanas": {
-            cantidad: 50,
-            precio: 0.75,
-            categoria: "Frutas"
-        },
-        "Leche": {
-            cantidad: 20,
-            precio: 1.20,
-            categoria: "Lácteos"
-        },
-        "Pan": {
-            cantidad: 30,
-            precio: 0.90,
-            categoria: "Panadería"
-        },
-        "Arroz": {
-            cantidad: 40,
-            precio: 1.10,
-            categoria: "Cereales"
-        }
-    };
 
-    function agregarProducto(nombre, cantidad, precio, categoria) {
+    function agregarProducto(nombre, cantidadString, precioString, categoria) {
         if (productos[nombre]) {
             return false;
         }
+        let cantidad = parseInt(cantidadString);
+        
+        let precio = parseFloat(precioString);
+        
         productos[nombre] = { cantidad, precio, categoria };
         return Object.entries(productos);
-        
+
         // for (i in productos) {
         //     if (i !== nombre) {
         //         productos[nombre] = { cantidad: cantidad, precio: precio, categoria: categoria };
@@ -46,8 +50,8 @@ $negocio = (function () {
         if (!productos[nombre]) {
             return false;
         }
-            delete productos[nombre];
-            return Object.entries(productos);
+        delete productos[nombre];
+        return Object.entries(productos);
     }
 
     function buscarProducto(nombre) {
@@ -64,12 +68,12 @@ $negocio = (function () {
 
         let productoEncontrado = {};
 
-        if(nombre in productos){
-            productoEncontrado[nombre] = {cantidad: productos[nombre].cantidad, precio: productos[nombre].precio, categoria:  productos[nombre].categoria};
+        if (nombre in productos) {
+            productoEncontrado[nombre] = { cantidad: productos[nombre].cantidad, precio: productos[nombre].precio, categoria: productos[nombre].categoria };
             console.log(productoEncontrado);
             return productoEncontrado;
         }
-
+        return false;
 
         // //*Pasandolo a array, devolviendolo como array
         // let arrayProductos = Object.entries(productos);
@@ -81,22 +85,38 @@ $negocio = (function () {
     }
 
     function actualizarInventario(nombre, cantidad) {
-        for (i in productos) {
-            if (i === nombre) {
-                let cantidadAux = productos[i].cantidad;
-                cantidadAux += cantidad;
-                if (cantidadAux < 0) {
-                    productos[i].cantidad = 0;
-                    return Object.entries(productos);
-                } else {
-                    productos[i].cantidad = cantidadAux;
-                    return Object.entries(productos);
-                }
-            }
+        // for (i in productos) {
+        //     if (i === nombre) {
+        //         let cantidadAux = productos[i].cantidad;
+        //         cantidadAux += cantidad;
+        //         if (cantidadAux < 0) {
+        //             productos[i].cantidad = 0;
+        //             return Object.entries(productos);
+        //         } else {
+        //             productos[i].cantidad = cantidadAux;
+        //             return Object.entries(productos);
+        //         }
+        //     }
+        // }
+        // return false;
+
+        if (nombre in productos) {
+            let productoActualizado = {};
+            let cantidadAux = productos[nombre].cantidad;
+            cantidadAux += cantidad;
+             if(cantidadAux < 0){
+                productos[nombre].cantidad = 0;
+                productoActualizado[nombre] = {cantidad: productos[nombre].cantidad, precio: productos[nombre].precio, categoria: productos[nombre].categoria}
+                return productoActualizado;
+             } else {
+                productos[nombre].cantidad = cantidadAux;
+                productoActualizado[nombre] = {cantidad: productos[nombre].cantidad, precio: productos[nombre].precio, categoria: productos[nombre].categoria}
+                return productoActualizado;
+             }
         }
-        return false;
     }
 
+    //* Aqui si que está bien pasado a array no? por que sino no puedo aplicarle metodos para ordenar como el toSorted
     function ordenarProductosPorPrecio() {
         let arrayProductos = Object.entries(productos);
         //* Si solo hago, a - b, estaria restando arrays, lo que hay que hacer es acceder a las propiedades de esos arrays, usando b[1].(propiedad)
@@ -105,6 +125,7 @@ $negocio = (function () {
         return ordenadoPorPrecio;
     }
 
+    //* O aquí, si solamente tengo que agregar un objeto a la lista?, podría hacerlo con map?
     function imprimirInventario() {
         let arrayProductos = Object.entries(productos);
         arrayProductos.forEach(productos => {
@@ -113,15 +134,26 @@ $negocio = (function () {
         return arrayProductos;
     }
 
+
     function filtrarProductosPorCategoria(categoria) {
-        let arrayProductos = Object.entries(productos);
-        let resultado = [];
-        arrayProductos.forEach(producto => {
-            if (producto[1].categoria == categoria) {
-                resultado.push(producto);
+
+        let productoEncontrado = {};
+        for(nombre in productos){
+            let producto = productos[nombre];
+            if(producto.categoria === categoria){
+                productoEncontrado[nombre] = {cantidad: productos[nombre].cantidad, precio: productos[nombre].precio}
             }
-        });
-        return resultado;
+        }
+        return productoEncontrado;
+
+        // let arrayProductos = Object.entries(productos);
+        // let resultado = [];
+        // arrayProductos.forEach(producto => {
+        //     if (producto[1].categoria == categoria) {
+        //         resultado.push(producto);
+        //     }
+        // });
+        // return resultado;
     }
     return {
         agregarProducto: agregarProducto,
@@ -247,7 +279,7 @@ window.addEventListener("load", () => {
     </form>
         `;
         container.appendChild(formularioEliminarProducto);
-        
+
         let eliminarProducto = document.getElementById("eliminarProducto");
         eliminarProducto.addEventListener("click", () => {
             mensajes.innerHTML = '';
@@ -257,18 +289,18 @@ window.addEventListener("load", () => {
             <button type=button id="confirmarEliminarSi">Si</button>
             <button type=button id="confirmarEliminarNo">No</button>
             `;
-            
+
             container.appendChild(confirmacionHMTL);
-            
+
             let confirmarEliminarSi = document.getElementById("confirmarEliminarSi");
             let confirmarEliminarNo = document.getElementById("confirmarEliminarNo");
-            
+
             confirmarEliminarSi.addEventListener("click", () => {
                 mensajes.innerHTML = '';
-                
+
                 let nombre = document.getElementById("nombre").value;
                 let resultado = $negocio.eliminarProducto(nombre);
-                
+
                 console.log(resultado);
 
                 let html = `
@@ -346,7 +378,7 @@ window.addEventListener("load", () => {
             let nombre = document.getElementById("nombre").value;
 
             let resultado = $negocio.buscarProducto(nombre);
-
+            
 
             let html = `
     <table border="1">
@@ -363,13 +395,19 @@ window.addEventListener("load", () => {
             if (resultado !== false) {
                 html += `
                 <tr>
-                <td>${resultado[0]}</td>
-                <td>${resultado[1].cantidad}</td>
-                <td>${resultado[1].precio}</td>
-                <td>${resultado[1].categoria}</td>
-                </tr>
+                `;
+                for (nombreProducto in resultado){
+                    let productoMostrar = {};
+                    productoMostrar = productos[nombreProducto];
+                    
+                    html+= `<td>${nombreProducto}</td>
+                    <td>${productoMostrar.cantidad}</td>
+                    <td>${productoMostrar.precio}</td>
+                    <td>${productoMostrar.categoria}</td>`;
+                }
+                html += `</tr>
                  </tbody>
-                </table>`
+                </table>`;
                 container.innerHTML = html;
             } else {
                 mensajes.innerHTML = '';
@@ -411,17 +449,18 @@ window.addEventListener("load", () => {
             let cantidad = document.getElementById("cantidad").value;
 
             let cantidadAEntero = parseInt(cantidad);
-
+            
 
 
             let resultado = $negocio.actualizarInventario(nombre, cantidadAEntero);
-            let productoEncontrado = [];
-            for (i in resultado) {
-                if (resultado[i][0] == nombre) {
-                    productoEncontrado[productoEncontrado.length] = resultado[i];
-                }
-            }
-            console.log(productoEncontrado);
+            
+            // let productoEncontrado = [];
+            // for (i in resultado) {
+            //     if (resultado[i][0] == nombre) {
+            //         productoEncontrado[productoEncontrado.length] = resultado[i];
+            //     }
+            // }
+            // console.log(productoEncontrado);
 
 
             let html = `
@@ -437,21 +476,16 @@ window.addEventListener("load", () => {
   <tbody">
 `;
             if (resultado !== false) {
-                resultado.forEach(producto => {
+                let productoMostrar = {};
+               for (nombreProducto in resultado) {
+                productoMostrar = productos[nombreProducto];
                     html += `<tr>
-                    <td>${producto[0]}</td>
-                    <td>${producto[1].cantidad}</td>
-                    <td>${producto[1].precio}</td>
-                    <td>${producto[1].categoria}</td>
+                    <td>${nombreProducto}</td>
+                    <td>${productoMostrar.cantidad}</td>
+                    <td>${productoMostrar.precio}</td>
+                    <td>${productoMostrar.categoria}</td>
                     </tr>`;
-
-                });
-                html += `</tbody>
-                </table>`;
-
-                productoEncontrado.forEach(producto => {
-
-                    if (producto[1].cantidad == 0) {
+                        if (productoMostrar.cantidad == 0) {
 
                         mensajes.innerHTML = '';
                         let mensaje = document.createElement('p');
@@ -466,7 +500,9 @@ window.addEventListener("load", () => {
                         mensajes.appendChild(mensaje);
                         container.innerHTML = html;
                     }
-                });
+                };
+                html += `</tbody>
+                </table>`;
             } else {
                 mensajes.innerHTML = '';
                 let mensaje = document.createElement('p');
@@ -601,15 +637,17 @@ window.addEventListener("load", () => {
   </thead>
   <tbody>
 `
-            if (resultado !== false) {
-                resultado.forEach(producto => {
+            if (Object.keys(resultado).length !==  0) {
+                for (nombreProducto in resultado){
+                    let productoMostrar = {};
+                    productoMostrar = productos[nombreProducto];
                     html += `
                     <tr>
-                    <td>${producto[0]}</td>
-                    <td>${producto[1].cantidad}</td>
-                    <td>${producto[1].precio}</td>
+                    <td>${nombreProducto}</td>
+                    <td>${productoMostrar.cantidad}</td>
+                    <td>${productoMostrar.precio}</td>
                     </tr>`;
-                });
+                };
 
                 html += ` </tbody>
                 </table>`;
