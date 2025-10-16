@@ -1,27 +1,28 @@
-const productos = {
-    "Manzanas": {
-        cantidad: 50,
-        precio: 0.75,
-        categoria: "Frutas"
-    },
-    "Leche": {
-        cantidad: 20,
-        precio: 1.20,
-        categoria: "Lácteos"
-    },
-    "Pan": {
-        cantidad: 30,
-        precio: 0.90,
-        categoria: "Panadería"
-    },
-    "Arroz": {
-        cantidad: 40,
-        precio: 1.10,
-        categoria: "Cereales"
-    }
-};
 
 $negocio = (function () {
+
+    let productos = {
+        "Manzanas": {
+            cantidad: 50,
+            precio: 0.75,
+            categoria: "Frutas"
+        },
+        "Leche": {
+            cantidad: 20,
+            precio: 1.20,
+            categoria: "Lácteos"
+        },
+        "Pan": {
+            cantidad: 30,
+            precio: 0.90,
+            categoria: "Panadería"
+        },
+        "Arroz": {
+            cantidad: 40,
+            precio: 1.10,
+            categoria: "Cereales"
+        }
+    };
 
     function agregarProducto(nombre, cantidad, precio, categoria) {
         if (productos[nombre]) {
@@ -29,7 +30,7 @@ $negocio = (function () {
         }
         productos[nombre] = { cantidad, precio, categoria };
         return Object.entries(productos);
-
+        
         // for (i in productos) {
         //     if (i !== nombre) {
         //         productos[nombre] = { cantidad: cantidad, precio: precio, categoria: categoria };
@@ -44,10 +45,9 @@ $negocio = (function () {
 
         if (!productos[nombre]) {
             return false;
-        } else {
+        }
             delete productos[nombre];
             return Object.entries(productos);
-        }
     }
 
     function buscarProducto(nombre) {
@@ -61,14 +61,24 @@ $negocio = (function () {
         //     }
         // }
 
+        let aux = {};
 
-        //*Pasandolo a array, devolviendolo como array
-        let arrayProductos = Object.entries(productos);
-        let indiceProducto = arrayProductos.findIndex(producto => producto[0] === nombre);
-        if(indiceProducto === - 1){
-            return false;
+        if(nombre in productos){
+            aux[nombre] = {cantidad: productos[nombre].cantidad, precio:  productos[nombre].precio, categoria:  productos[nombre].categoria};
+            console.log(aux);
+            
+            
+            return aux;
         }
-        return arrayProductos[indiceProducto];
+
+
+        // //*Pasandolo a array, devolviendolo como array
+        // let arrayProductos = Object.entries(productos);
+        // let indiceProducto = arrayProductos.findIndex(producto => producto[0] === nombre);
+        // if(indiceProducto === - 1){
+        //     return false;
+        // }
+        // return arrayProductos[indiceProducto];
     }
 
     function actualizarInventario(nombre, cantidad) {
@@ -102,7 +112,6 @@ $negocio = (function () {
             productos[1].total = productos[1].cantidad * productos[1].precio;
         });
         return arrayProductos;
-
     }
 
     function filtrarProductosPorCategoria(categoria) {

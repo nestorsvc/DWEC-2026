@@ -1,6 +1,6 @@
 const colores = ['amarillo', 'azul', 'rojo', 'verde'];
 
-let $simon = (function () {
+const $simon = (function () {
 
     let arrayColoresCadaRonda = [];
     let posicionActual = 0;
@@ -66,8 +66,7 @@ let $simon = (function () {
     function obtenerMejorRacha() {
         return mejorRacha;
     }
-
-
+    
     return {
         agregarColor: agregarColor,
         iniciarJuego: iniciarJuego,
@@ -83,6 +82,7 @@ window.addEventListener("load", () => {
     function apagarTodosLosBotones() {
         console.log("Apagando todos los botones");
     }
+
     function iluminarBoton(color) {
         console.log("Iluminando " + color);
 
@@ -90,9 +90,9 @@ window.addEventListener("load", () => {
 
     let tiempoDeIluminacion = 500;
     let tiempoEntreEncendidos = 300;
+    let mostrandoSecuencia = true;
 
     function mostrarSecuencia(secuencia) {
-        let mostrandoSecuencia = true;
 
         let tiempoAcumulado = 0;
 
@@ -124,11 +124,19 @@ window.addEventListener("load", () => {
     function botonPulsado(color) {
         let resultado = $simon.comprobarUltimoColor(color);
 
-        if (resultado.resultado === "rondaSuperada") {
-            let secuencia = $simon.generarSecuencia();
-            mostrarSecuencia(secuencia);
-        } else if (resultado.resultado === "fallo") {
-            console.log("Fin de la partida");
+        if($simon.comprobarEstado() === 'parado' || mostrandoSecuencia == true){
+            return;
         }
+        iluminarBoton
+
+        // if (resultado.resultado === "rondaSuperada") {
+        //     let secuencia = $simon.generarSecuencia();
+        //     mostrarSecuencia(secuencia);
+        // } else if (resultado.resultado === "fallo") {
+        //     console.log("Fin de la partida");
+        // }
+
     }
+
+   
 })
