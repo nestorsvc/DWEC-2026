@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mercadillo</title>
+    <script src="app.js"></script>
+</head>
+
+<body>
+    <h1>Mercadillo</h1>
+    <div id="container"></div>
+    <form id="formularioAgregarProducto">
+        <label for="nombreAgregarProdcucto">Nombre:</label>
+        <input type="text" id="nombreAgregarProdcucto" required><br>
+
+        <label for="cantidadAgregarProducto">Cantidad:</label>
+        <input type="number" id="cantidadAgregarProducto" required><br>
+
+        <label for="precioAgregarProducto">Precio:</label>
+        <input type="number" id="precioAgregarProducto" required><br>
+
+        <label for="categoriaAgregarProducto">Categoría:</label>
+        <input type="text" id="categoriaAgregarProducto" required><br>
+
+        <button type="button" id="btnAgregarProducto">Agregar</button>
+    </form>
+    <br>
+    <form id="formularioEliminarProducto">
+        <label for="nombreEliminarProducto">Nombre:</label>
+        <input type="text" id="nombreEliminarProducto" required><br>
+        <button type="button" id="btnEliminarProducto">Eliminar</button>
+    </form>
+    <br>
+    <form id="formularioBuscarProducto">
+        <label for="nombreBuscarProducto">Nombre:</label>
+        <input type="text" id="nombreBuscarProducto" required><br>
+        <button type="button" id="btnBuscarProducto">Buscar</button>
+    </form>
+    <br>
+    <form id="formularioActualizarInventario">
+        <label for="nombreActualizarInventario">Nombre:</label>
+        <input type="text" id="nombreActualizarInventario" required><br>
+
+        <label for="cantidadActualizarInventario">Cantidad:</label>
+        <input type="number" id="cantidadActualizarInventario" required><br>
+
+        <button type="button" id="btnActualizarInventario">Actualizar</button>
+    </form>
+    <br>
+      <form id="formularioFiltrarCategoria">
+      <label for="categoriaActualizarInventario">Categoria:</label>
+      <input type="text" id="categoriaActualizarInventario" required><br>
+      <button type="button" id="buscarCategoria">Buscar</button>
+    </form>
+       <form id="formularioFiltrarCategoria">
+      <label for="categoriaFiltrar">Categoria:</label>
+      <input type="text" id="categoriaFiltrar" required><br>
+      <button type="button" id="btnBuscarCategoria">Filtrar Categoria</button>
+    </form>
+    <br>
+    <form>
+        <button type="button" id="btnImprimirInventario">Imprimir Inventario</button>
+    </form>
+</body>
+<div id="mensajes"></div>
+
+</html>
