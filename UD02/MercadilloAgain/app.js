@@ -82,23 +82,29 @@ $negocio = (function () {
         return undefined;
     }
 
-    function ordenarProductosPorPrecio(){
+    function ordenarProductosPorPrecio() {
+        let productosArray = [];
+        for (let nombre in productos) {
+            productosArray.push(productos[nombre] = { nombre: nombre, cantidad: productos[nombre].cantidad, precio: productos[nombre].precio, categoria: productos[nombre].categoria, total: productos[nombre].cantidad * productos[nombre].precio });
+        }
+        let productosOrdenados = productosArray.sort((a, b) => a.precio - b.precio);
+        return productosOrdenados;
     }
 
-    function imprimirInventario(){
+    function imprimirInventario() {
         let productosArray = [];
-        for (let nombre in productos){
-            productosArray.push(productos[nombre] = {nombre:nombre, cantidad: productos[nombre].cantidad, precio: productos[nombre].precio, categoria: productos[nombre].categoria, total: productos[nombre].cantidad * productos[nombre].precio});
+        for (let nombre in productos) {
+            productosArray.push(productos[nombre] = { nombre: nombre, cantidad: productos[nombre].cantidad, precio: productos[nombre].precio, categoria: productos[nombre].categoria, total: productos[nombre].cantidad * productos[nombre].precio });
         }
         return productosArray;
     }
 
-    function filtrarPorCategoria(categoria){
+    function filtrarPorCategoria(categoria) {
         let productoEncontrado = {};
-        for (nombre in productos){
-            if(productos[nombre].categoria === categoria){
-                productoEncontrado[nombre] = {cantidad: productos[nombre].cantidad, precio : productos[nombre].precio}
-            } 
+        for (nombre in productos) {
+            if (productos[nombre].categoria === categoria) {
+                productoEncontrado[nombre] = { cantidad: productos[nombre].cantidad, precio: productos[nombre].precio }
+            }
         }
         return productoEncontrado;
     }
@@ -117,10 +123,9 @@ $negocio = (function () {
 window.addEventListener("load", () => {
 
     let mensajes = document.getElementById("mensajes");
-
-
-
+    
     // Agregar producto
+
     let btnAgregarProducto = document.getElementById("btnAgregarProducto");
     btnAgregarProducto.addEventListener("click", () => {
 
@@ -196,6 +201,7 @@ window.addEventListener("load", () => {
         mensajes.innerHTML = html;
     });
 
+    // Buscar producto
     let btnBuscarProducto = document.getElementById("btnBuscarProducto");
 
     btnBuscarProducto.addEventListener("click", () => {
@@ -236,6 +242,41 @@ window.addEventListener("load", () => {
         }
 
     });
+
+    // Ordenar inventario
+    let btnOrdenarInventario = document.getElementById("btnOrdenarInventario");
+
+    btnOrdenarInventario.addEventListener("click", () => {
+        let resultado = $negocio.imprimirInventario();
+        let html = `<table border=1>
+            <thead>
+            <tr>
+            <th>Nombre</th>
+            <th>Cantidad</th>
+            <th>Precio</th>
+            <th>Categoria</th>
+            <th>Total</th>
+            </tr>
+            </thead>
+            <tbody>
+            `;
+
+        resultado.forEach(producto => {
+            html += `
+                <tr>
+                <td>${producto.nombre}</td>
+                <td>${producto.cantidad}</td>
+                <td>${producto.precio}</td>
+                <td>${producto.categoria}</td>
+                <td>${producto.total}</td>
+                </tr>
+                `;
+        });
+        html += `</tbody>
+            </table>`
+        mensajes.innerHTML = html;
+    });
+
 
     //Actualizar inventario
 
@@ -283,9 +324,12 @@ window.addEventListener("load", () => {
 
     });
 
+
+    // Imrpimir inventario
+
     let btnImprimirInventario = document.getElementById("btnImprimirInventario");
 
-    btnImprimirInventario.addEventListener("click",()=>{
+    btnImprimirInventario.addEventListener("click", () => {
         let resultado = $negocio.imprimirInventario();
         let html = `<table border=1>
             <thead>
@@ -300,8 +344,8 @@ window.addEventListener("load", () => {
             <tbody>
             `;
 
-            resultado.forEach(producto => {
-                html += `
+        resultado.forEach(producto => {
+            html += `
                 <tr>
                 <td>${producto.nombre}</td>
                 <td>${producto.cantidad}</td>
@@ -310,20 +354,21 @@ window.addEventListener("load", () => {
                 <td>${producto.total}</td>
                 </tr>
                 `;
-            }); 
-            html += `</tbody>
+        });
+        html += `</tbody>
             </table>`
-            mensajes.innerHTML = html;
+        mensajes.innerHTML = html;
     });
 
+    // Filtrar categoria
     let btnBuscarCategoria = document.getElementById("btnBuscarCategoria");
-    btnBuscarCategoria.addEventListener("click",()=>{
+    btnBuscarCategoria.addEventListener("click", () => {
         let categoria = document.getElementById("categoriaFiltrar").value;
 
         let resultado = $negocio.filtrarPorCategoria(categoria);
         console.log(resultado);
 
-         if (resultado !== undefined) {
+        if (resultado !== undefined) {
             let html = `<table border=1>
             <thead>
             <tr>
@@ -353,6 +398,6 @@ window.addEventListener("load", () => {
         }
 
     });
-        
+
 
 });
