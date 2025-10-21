@@ -127,7 +127,8 @@ window.addEventListener("load", () => {
         if($simon.comprobarEstado() === 'parado' || mostrandoSecuencia == true){
             return;
         }
-        iluminarBoton
+
+        
 
         // if (resultado.resultado === "rondaSuperada") {
         //     let secuencia = $simon.generarSecuencia();
