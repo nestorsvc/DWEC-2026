@@ -1,0 +1,65 @@
+#container {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    background-color: rgb(57, 255, 255);
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+input {
+    margin: 10px;
+    width: 10%;
+    border: none;
+    background-color: rgb(62, 162, 255);
+    border-radius: 10px;
+    padding: 8px;
+}
+
+#btnAgregar {
+    margin: 10px;
+    width: 200px;
+    color: white;
+    padding: 5px;
+    background-color: rgb(55, 132, 204);
+    cursor: pointer;
+    padding: 8px;
+    border: none;
+    border-radius: 10px;
+}
+
+#cuerpo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+#divTurno {
+    font-size: xx-large;
+    margin-bottom: 10%;
+}
+
+#divNumeroDados {
+    font-size: xx-large;
+    margin-top: 0px;
+}
+
+#divPuntos {
+    font-size: xx-large;
+    margin-top: 10%;
+}
+
+#btnTirar {
+    font-size: xx-large;
+    margin: 10px;
+    width: 200px;
+    color: white;
+    padding: 5px;
+    background-color: rgb(55, 132, 204);
+    cursor: pointer;
+    padding: 8px;
+    border: none;
+    border-radius: 10px;
+}

@@ -4,9 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ejercicio 01</title>
+    <link rel="stylesheet" href="styles.css">
     <script src="app.js"></script>
 </head>
-<body>
-    
+<body id="container">
+        <form>
+            <label for="ladoDados">Numeros de lados del dado</label>
+            <input type="number" id="ladoDados" name="ladoDados" required>
+            <label for="numeroRondas">Número de rondas</label>
+            <input type="number" id="numeroRondas" name="numeroRondas">
+            <button type="button" id="btnAgregar">Agregar</button>
+        </form>
+
+        <div id="cuerpo">
+        <div id="divTurno"></div>
+        <div id="divNumeroDados"></div>
+        <div id="divPuntos"></div>
+
+        <div id="divGanadorRonda"></div>
+        <button type="button" id="btnTirar">Tirar</button>
+        </div>
 </body>
 </html>
